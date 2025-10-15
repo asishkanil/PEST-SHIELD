@@ -1,0 +1,170 @@
+{% extends "store/base.html" %}
+
+{% block title %}Detection Result - Pest-Shield{% endblock %}
+
+{% block content %}
+<style>
+    /* Container styling */
+    .result-container {
+        max-width: 850px;
+        margin: 80px auto;
+        padding: 50px;
+        background: linear-gradient(135deg, #f0f8ff, #e6f7ff);
+        border-radius: 18px;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        border-top: 6px solid #007bff;
+        animation: fadeIn 0.8s ease-in-out;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Title styling */
+    .result-container h2 {
+        font-size: 2.8rem;
+        font-weight: 900;
+        color: #023e8a;
+        margin-bottom: 25px;
+        position: relative;
+        display: inline-block;
+    }
+    
+    .result-container h2:after {
+        content: '';
+        position: absolute;
+        bottom: -8px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 4px;
+        background: linear-gradient(to right, #007bff, #28a745);
+        border-radius: 2px;
+    }
+    
+    /* Result box styling */
+    .result-details {
+        background: linear-gradient(120deg, #f8f9fa, #dfeeff);
+        padding: 25px;
+        border-radius: 14px;
+        margin-bottom: 30px;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+        border-left: 6px solid #007bff;
+        transition: all 0.3s ease-in-out;
+    }
+    
+    .result-details:hover {
+        transform: scale(1.02);
+    }
+    
+    .pest-name {
+        font-weight: 800;
+        color: #d90429;
+        font-size: 1.6rem;
+    }
+    
+    .confidence {
+        font-weight: 800;
+        color: #0077b6;
+        font-size: 1.6rem;
+    }
+    
+    /* Recommended pesticides styling */
+    .result-container h3 {
+        font-size: 2rem;
+        font-weight: 800;
+        color: #023e8a;
+        margin: 35px 0 20px;
+    }
+    
+    .list-group {
+        margin: 25px auto;
+        max-width: 600px;
+    }
+    
+    .list-group-item {
+        font-size: 1.2rem;
+        padding: 15px 20px;
+        border: none;
+        background: linear-gradient(45deg, #f0fff4, #e6ffe6);
+        margin-bottom: 12px;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease-in-out;
+        text-align: left;
+    }
+    
+    .list-group-item:nth-child(odd) {
+        background: linear-gradient(45deg, #e6ffe6, #f0fff4);
+    }
+    
+    .list-group-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+    }
+    
+    /* Button styling */
+    .button-container {
+        margin-top: 35px;
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+    
+    .btn {
+        padding: 16px 32px;
+        font-size: 1.2rem;
+        border-radius: 50px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: all 0.3s ease-in-out;
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+    }
+    
+    .btn-primary {
+        background: linear-gradient(45deg, #007bff, #0056b3);
+        border: none;
+    }
+    
+    .btn-success {
+        background: linear-gradient(45deg, #28a745, #218838);
+        border: none;
+    }
+    
+    .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+</style>
+
+<div class="result-container">
+    <h2>Pest Detection Result</h2>
+    
+    <div class="result-details">
+        <p>
+            Detected Pest: <span class="pest-name">{{ pest_name }}</span><br>
+            
+        </p>
+    </div>
+    
+    <h3>Recommended Pesticides</h3>
+    {% if pesticides %}
+        <ul class="list-group">
+            {% for pesticide in pesticides %}
+                <li class="list-group-item">{{ pesticide }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No pesticide recommendations found.</p>
+    {% endif %}
+    
+    <div class="button-container">
+        <a href="{% url 'detect_pest' %}" class="btn btn-primary">Try Another Image</a>
+        <a href="{% url 'shop' %}" class="btn btn-success">Shop Now</a>
+    </div>
+</div>
+{% endblock %}

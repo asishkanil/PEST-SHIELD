@@ -1,0 +1,146 @@
+{% extends "store/base.html" %}
+{% load static %}
+
+{% block title %}Sign Up - Pest Shield{% endblock %}
+
+{% block content %}
+<style>
+    /* Professional and modern signup page design */
+    .signup-container {
+        max-width: 500px;
+        margin: 60px auto;
+        padding: 40px;
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    .signup-header {
+        margin-bottom: 25px;
+    }
+
+    .signup-header h2 {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #218838;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+        text-align: left;
+    }
+
+    label {
+        font-weight: 600;
+        color: #333;
+        font-size: 1rem;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ced4da;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: 0.3s ease-in-out;
+    }
+
+    .form-control:focus {
+        border-color: #218838;
+        box-shadow: 0 0 8px rgba(33, 136, 56, 0.3);
+        outline: none;
+    }
+
+    /* Ensure input fields have the same width and alignment */
+    .form-group input {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .btn-signup {
+        width: 100%;
+        padding: 12px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.3s ease;
+        box-shadow: 0 4px 10px rgba(40, 167, 69, 0.2);
+    }
+
+    .btn-signup:hover {
+        background-color: #218838;
+        box-shadow: 0 6px 14px rgba(40, 167, 69, 0.3);
+        transform: translateY(-2px);
+    }
+
+    .signup-footer {
+        margin-top: 20px;
+        font-size: 1rem;
+    }
+
+    .signup-footer a {
+        color: #007bff;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    .signup-footer a:hover {
+        text-decoration: underline;
+    }
+
+    .error-message {
+        color: red;
+        font-size: 0.9rem;
+        margin-top: 5px;
+    }
+</style>
+
+<div class="signup-container">
+    <div class="signup-header">
+        <h2>Create an Account</h2>
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        
+        {% if form.errors %}
+            <div class="error-message">
+                <p>Please correct the following errors:</p>
+                <ul>
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+        
+        <div class="form-group">
+            <label for="{{ form.username.id_for_label }}">Username</label>
+            {{ form.username }}
+            <small class="error-message">{{ form.username.errors }}</small>
+        </div>
+        <div class="form-group">
+            <label for="{{ form.password1.id_for_label }}">Password</label>
+            {{ form.password1 }}
+            <small class="error-message">{{ form.password1.errors }}</small>
+        </div>
+        <div class="form-group">
+            <label for="{{ form.password2.id_for_label }}">Confirm Password</label>
+            {{ form.password2 }}
+            <small class="error-message">{{ form.password2.errors }}</small>
+        </div>
+        <button type="submit" class="btn-signup">Register</button>
+    </form>
+    <div class="signup-footer">
+        <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+    </div>
+</div>
+{% endblock %}

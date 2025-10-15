@@ -1,0 +1,35 @@
+{% extends "store/base.html" %}
+{% block content %}
+<h2>Manage Pesticide Stock and Prices</h2>
+
+{% for message in messages %}
+<p style="color: green;">{{ message }}</p>
+{% endfor %}
+
+<table border="1">
+    <tr>
+        <th>Pesticide Name</th>
+        <th>Price Rs</th>
+        <th>Stock</th>
+        <th>Update</th>
+    </tr>
+
+    {% for pesticide in pesticides %}
+    <tr>
+        <td>{{ pesticide.pesticide_name }}</td>
+        <td>{{ pesticide.price }}</td>
+        <td>{{ pesticide.quantity_available }}</td>
+        <td>
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="pesticide_id" value="{{ pesticide.id }}">
+                <input type="number" name="price" value="{{ pesticide.price }}" step="0.01">
+                <input type="number" name="quantity_available" value="{{ pesticide.quantity_available }}">
+                <button type="submit">Update</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

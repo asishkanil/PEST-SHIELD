@@ -1,0 +1,207 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}Home - Pest-Shield{% endblock %}
+
+{% block content %}
+<style>
+    /* General Styling */
+    .home-container {
+        max-width: 1200px;
+        margin: 60px auto;
+        padding: 40px;
+        text-align: center;
+        background: linear-gradient(135deg, #e8f5e9, #f1f8e9);
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Header */
+    .home-header h1 {
+        font-size: 3rem;
+        font-weight: bold;
+        color: #256029;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .home-header p {
+        font-size: 1.2rem;
+        color: #333;
+        max-width: 700px;
+        margin: 15px auto;
+    }
+
+    /* Image Gallery */
+    .image-gallery {
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        margin: 40px 0;
+        flex-wrap: wrap;
+    }
+
+    .gallery-item {
+        width: 30%;
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .gallery-item img {
+        width: 100%;
+        height: 260px;
+        object-fit: cover;
+    }
+
+    .gallery-item p {
+        padding: 15px;
+        font-size: 1rem;
+        color: #444;
+    }
+
+    .gallery-item:hover {
+        transform: scale(1.05);
+    }
+
+    /* CTA Button */
+    .cta-button {
+        display: inline-block;
+        padding: 15px 35px;
+        background-color: #2e7d32;
+        color: white;
+        font-size: 1.2rem;
+        font-weight: 600;
+        border-radius: 10px;
+        text-decoration: none;
+        transition: 0.3s;
+        box-shadow: 0 5px 12px rgba(46, 125, 50, 0.3);
+        margin-top: 25px;
+    }
+
+    .cta-button:hover {
+        background-color: #1b5e20;
+        transform: translateY(-3px);
+    }
+
+    /* Features Section */
+    .features-section {
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        flex-wrap: wrap;
+        margin-top: 50px;
+    }
+
+    .feature-item {
+        width: 30%;
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .feature-item img {
+        width: 75px;
+        margin-bottom: 12px;
+    }
+
+    .feature-item h3 {
+        font-size: 1.6rem;
+        color: #1b5e20;
+    }
+
+    .feature-item p {
+        font-size: 1.1rem;
+        color: #555;
+    }
+
+    .feature-item:hover {
+        transform: translateY(-5px);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .image-gallery, .features-section {
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .gallery-item, .feature-item {
+            width: 90%;
+        }
+    }
+    .shop-button {
+        display: inline-block;
+        padding: 15px 35px;
+        background: linear-gradient(135deg, #ff7043, #ff5722);
+        color: #fff;
+        font-size: 1.2rem;
+        font-weight: 600;
+        border-radius: 10px;
+        text-decoration: none;
+        transition: 0.3s;
+        box-shadow: 0 5px 12px rgba(255, 87, 34, 0.3);
+        margin-top: 20px;
+        margin-left: 15px;
+    }
+    
+    .shop-button:hover {
+        background: linear-gradient(135deg, #e64a19, #d84315);
+        transform: translateY(-3px);
+    }
+    
+</style>
+
+<div class="home-container">
+    <div class="home-header">
+        <h1>Welcome to Pest-Shield</h1>
+        <p>Your advanced solution for pest detection and crop protection with expert recommendations</p>
+    </div>
+
+    <!-- Image Gallery Section -->
+    <div class="image-gallery">
+        <div class="gallery-item">
+            <img src="{% static 'images/e444a6e0e1abf3d540129b3dcb9df2aa.jpg' %}" alt="Pest Detection">
+            <p>AI-powered Pest Detection</p>
+        </div>
+        <div class="gallery-item">
+            <img src="{% static 'images/da3fa6b13d8bc7ab027fe1a13572ceb9 (1).jpg' %}" alt="Pesticides">
+            <p>Wide Range of Effective Pesticides</p>
+        </div>
+        <div class="gallery-item">
+            <img src="{% static 'images/0870ea101fca16512b5d6bcdddb92a9f.jpg' %}" alt="Farm Protection">
+            <p>Protect Your Crops with Expert Solutions</p>
+        </div>
+    </div>
+
+    <!-- Main Call-to-Action Button -->
+    <a href="{% url 'detect_pest' %}" class="cta-button">Start Detecting Now</a>
+    <!-- Shop Now Button -->
+<a href="{% url 'shop' %}" class="shop-button">🛒 Shop Now</a>
+
+
+    <!-- Features Section -->
+    <div class="features-section">
+        <div class="feature-item">
+            <img src="{% static 'images/e3ac911956765876b3b21160cd88245b.jpg' %}" alt="Scan Icon">
+            <h3>Quick Identification</h3>
+            <p>Upload a photo and get instant pest identification</p>
+        </div>
+        <div class="feature-item">
+            <img src="{% static 'images/21892b75dcd9ece2fab133eaba736154.jpg' %}" alt="Solution Icon">
+            <h3>Expert Solutions</h3>
+            <p>Get tailored pesticide recommendations for your specific needs</p>
+        </div>
+        <div class="feature-item">
+            <img src="{% static 'images/73ef076a20af102b07ce1f304548d901 (1).jpg' %}" alt="Eco Icon">
+            <h3>Eco-Friendly Options</h3>
+            <p>Discover organic and sustainable pest control methods</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+# Ignore model files and database
+*.keras
+*.h5
+*.pkl
+*.ckpt
+db.sqlite3
+
+# Ignore Python caches
+__pycache__/
+*.pyc
+
+# Ignore uploads and static collections
+uploads/
+staticfiles/
+
+# VS Code / system files
+.vscode/
+.DS_Store

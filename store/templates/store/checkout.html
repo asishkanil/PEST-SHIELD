@@ -1,0 +1,335 @@
+{% extends "store/base.html" %}
+
+{% block title %}Checkout - Pest-Shield{% endblock %}
+
+{% block content %}
+<style>
+/* Variables for dynamic colors */
+:root {
+  --primary-color: #4CAF50;
+  --primary-dark: #388E3C;
+  --primary-light: #A5D6A7;
+  --accent-color: #FF9800;
+  --text-color: #2c3e50;
+  --light-bg: #f9f9f9;
+  --border-color: #e0e0e0;
+  --success-color: #4CAF50;
+  --danger-color: #F44336;
+}
+
+/* Container styling */
+.checkout-container {
+  max-width: 900px;
+  margin: 50px auto;
+  padding: 40px;
+  background: var(--light-bg);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.checkout-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 8px;
+  background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+}
+
+.checkout-container h2 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-align: center;
+  color: var(--primary-color);
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.checkout-container h2::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: var(--accent-color);
+  border-radius: 2px;
+}
+
+/* Table styling */
+.checkout-table {
+  width: 100%;
+  margin-bottom: 30px;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.checkout-table th {
+  padding: 15px;
+  text-align: center;
+  background-color: var(--primary-color);
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.checkout-table td {
+  padding: 15px;
+  text-align: center;
+  vertical-align: middle;
+  border-top: 1px solid var(--border-color);
+  font-size: 1rem;
+  color: var(--text-color);
+}
+
+.checkout-table tr:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.checkout-table tr:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+/* Button styling for plus/minus */
+.btn-sm {
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.btn-sm:hover {
+  transform: scale(1.1);
+}
+
+.btn-danger {
+  background-color: var(--danger-color);
+  color: white;
+}
+
+.btn-success {
+  background-color: var(--success-color);
+  color: white;
+}
+
+/* Delivery details form styling */
+.delivery-form {
+  max-width: 600px;
+  margin: 30px auto;
+  text-align: left;
+  padding: 25px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.delivery-form label {
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: var(--primary-dark);
+  display: block;
+}
+
+.form-control {
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 2px solid var(--border-color);
+  width: 100%;
+  transition: border-color 0.3s;
+}
+
+.form-control:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+/* Place Order button */
+.place-order-btn {
+  display: block;
+  width: 100%;
+  padding: 15px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  background: linear-gradient(45deg, var(--primary-color), var(--primary-dark));
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.place-order-btn:hover {
+  background: linear-gradient(45deg, var(--primary-dark), var(--primary-color));
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+}
+
+.place-order-btn:active {
+  transform: translateY(0);
+}
+
+/* Summary styling */
+.summary {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  padding: 10px 15px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.summary strong {
+  color: var(--primary-dark);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .checkout-container {
+    padding: 20px;
+    margin: 20px auto;
+  }
+  
+  .checkout-table th, .checkout-table td {
+    padding: 10px 8px;
+    font-size: 0.9rem;
+  }
+  
+  .checkout-container h2 {
+    font-size: 2rem;
+  }
+}
+
+/* Empty cart message styling - UPDATED */
+.empty-cart-message {
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-color);
+  padding: 40px 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  margin: 30px auto;
+  max-width: 600px;
+  border-left: 5px solid var(--accent-color);
+  position: relative;
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.empty-cart-message::before {
+  content: "🛒";
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 15px;
+}
+
+.empty-cart-message::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+}
+</style>
+
+<div class="checkout-container">
+    <h2 class="text-center">Checkout</h2>
+    {% if cart_items %}
+        <table class="table checkout-table">
+            <thead>
+                <tr>
+                    <th>Pesticide</th>
+                    <th>Quantity</th>
+                    <th>Price per item</th>
+                    <th>Total Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                <tr>
+                    <td>{{ item.pesticide.pesticide_name }}</td>
+                    <td>
+                        <form action="{% url 'update_cart_item' item.id %}" method="post" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" name="action" value="decrement" class="btn btn-sm btn-danger">-</button>
+                        </form>
+                        <span class="mx-2">{{ item.quantity }}</span>
+                        <form action="{% url 'update_cart_item' item.id %}" method="post" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" name="action" value="increment" class="btn btn-sm btn-success">+</button>
+                        </form>
+                    </td>
+                    <td>Rs {{ item.pesticide.price }}</td>
+                    <td>Rs {{ item.total_price }}</td> 
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <p class="summary"><strong>Shipping Cost:</strong> Rs {{ shipping_cost }}</p>
+        <p class="summary"><strong>Total:</strong> Rs {{ total_price }}</p>
+        <div class="text-center mt-4">
+            <div style="text-align: center; margin-top: 20px;">
+    <a href="{% url 'shop' %}" class="btn btn-primary">Back to Shop</a>
+</div>
+        </div>
+        
+
+        <h3 class="mt-4 text-center">Delivery Details</h3>
+        <form method="post" action="{% url 'order_success' %}" class="delivery-form">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="name">Full Name:</label>
+                <input type="text" id="name" name="name" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="phone">Phone Number:</label>
+                <input type="tel" id="phone" name="phone" class="form-control" required pattern="[0-9]{10}" placeholder="Enter 10-digit phone number">
+            </div>
+            <div class="mb-3">
+                <label for="pincode">Pincode:</label>
+                <input type="text" id="pincode" name="pincode" class="form-control" required pattern="[0-9]{6}" placeholder="Enter 6-digit pincode">
+            </div>
+            <div class="mb-3">
+                <label for="address">Delivery Address:</label>
+                <textarea id="address" name="address" class="form-control" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label>Payment Method:</label>
+                <p><strong>Cash on Delivery (COD)</strong></p>
+            </div>
+            <button type="submit" class="place-order-btn">Place Order</button>
+        </form>
+    {% else %}
+        <div class="empty-cart-message">
+            Your cart is empty!
+            <p style="font-size: 1rem; margin-top: 10px; font-weight: normal;">Browse our products and add items to your cart.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

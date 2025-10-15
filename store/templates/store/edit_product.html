@@ -1,0 +1,125 @@
+{% extends "store/base.html" %}
+
+{% block content %}
+<div class="page-container">
+    <h2>Edit Product</h2>
+
+    <div class="form-container">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="update-btn">Update</button>
+        </form>
+        <a href="{% url 'admin_dashboard' %}" class="back-link">Back to Dashboard</a>
+    </div>
+</div>
+
+<style>
+    .page-container {
+        padding: 20px;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .form-container {
+        max-width: 600px;
+        margin: auto;
+        background: white;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+        font-size: 24px;
+        font-weight: 600;
+    }
+
+    /* Form elements styling */
+    form p {
+        margin-bottom: 15px;
+    }
+
+    form label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 500;
+        color: #555;
+    }
+
+    form input[type="text"],
+    form input[type="number"],
+    form input[type="email"],
+    form textarea,
+    form select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+        font-size: 16px;
+    }
+
+    form input[type="file"] {
+        background-color: #f9f9f9;
+        padding: 8px;
+        border: 1px dashed #ddd;
+        border-radius: 5px;
+        width: 100%;
+    }
+
+    form textarea {
+        min-height: 100px;
+        resize: vertical;
+    }
+
+    .update-btn {
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        display: block;
+        width: 100%;
+        margin-top: 20px;
+        font-size: 16px;
+        font-weight: 500;
+        transition: background-color 0.3s ease;
+    }
+
+    .update-btn:hover {
+        background-color: #0056b3;
+    }
+
+    .back-link {
+        display: block;
+        text-align: center;
+        margin-top: 20px;
+        color: #007BFF;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s ease;
+    }
+
+    .back-link:hover {
+        color: #0056b3;
+        text-decoration: underline;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .form-container {
+            padding: 15px;
+            max-width: 100%;
+        }
+        
+        .update-btn {
+            padding: 10px 15px;
+        }
+    }
+</style>
+{% endblock %}

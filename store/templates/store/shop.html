@@ -1,0 +1,206 @@
+{% extends "store/base.html" %}
+
+{% block title %}Shop - Pest-Shield{% endblock %}
+
+{% block content %} 
+<style>
+    .shop-container {
+        max-width: 1200px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 15px;
+    }
+
+    .shop-container h2 {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #2c3e50;
+        margin-bottom: 40px;
+        text-align: center;
+        position: relative;
+        padding-bottom: 15px;
+    }
+
+    .shop-container h2::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 4px;
+        background: linear-gradient(to right, #27ae60, #2ecc71);
+        border-radius: 2px;
+    }
+
+    .shop-card {
+        border: none;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        transition: all 0.4s ease;
+        height: 100%;
+        background: white;
+        padding: 20px;
+    }
+
+    .shop-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+    }
+
+    .shop-card .card-body {
+        padding: 20px;
+    }
+
+    .shop-card .card-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 15px;
+        transition: color 0.3s ease;
+    }
+
+    .shop-card:hover .card-title {
+        color: #27ae60;
+    }
+
+    .shop-card .card-text {
+        font-size: 1rem;
+        color: #666;
+        margin-bottom: 15px;
+        line-height: 1.6;
+    }
+
+    .price-tag {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #27ae60;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    .stock-indicator {
+        display: inline-block;
+        padding: 5px 12px;
+        border-radius: 4px;
+        font-size: 0.85rem;
+        margin-bottom: 15px;
+    }
+
+    .in-stock { background-color: #e3f7ed; color: #27ae60; }
+    .low-stock { background-color: #fff7e6; color: #f39c12; }
+    .out-of-stock { background-color: #fee9e7; color: #e74c3c; }
+
+    .btn-add-cart {
+        font-size: 1rem;
+        font-weight: 600;
+        padding: 10px 20px;
+        border-radius: 30px;
+        color: white;
+        background: linear-gradient(to right, #27ae60, #2ecc71);
+        border: none;
+        transition: all 0.3s ease;
+        display: block;
+        width: 100%;
+        text-align: center;
+        text-decoration: none;
+    }
+
+    .btn-add-cart:hover {
+        background: linear-gradient(to right, #219a52, #27ae60);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+    }
+
+    .btn-add-cart:active { transform: translateY(0); }
+
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        background-color: white;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .empty-state p {
+        font-size: 1.2rem;
+        color: #7f8c8d;
+    }
+    .shop-card .card-text {
+        font-size: 1rem;
+        color: #1a237e; /* Dark Blue */
+        margin-bottom: 15px;
+        line-height: 1.6;
+        font-weight: 500;
+    }
+    .in-stock { background-color: #ffe5b4; color: #ff8c00; font-weight: bold; } /* Dark Orange */
+.low-stock { background-color: #fff7e6; color: #d2691e; font-weight: bold; } /* Chocolate Brown */
+.out-of-stock { background-color: #fee9e7; color: #d32f2f; font-weight: bold; } /* Dark Red */
+
+    
+</style>
+
+<div class="shop-container">
+    <h2>Shop - Recommended Pesticides</h2>
+
+    {% if recommended_pesticides %}
+        <div class="row">
+            {% for pesticide in recommended_pesticides %}
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="shop-card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ pesticide.pesticide_name }}</h5>
+                            <p class="card-text">Effective against {{ pesticide.pest_name }}</p>
+                            <span class="price-tag">₹{{ pesticide.price }}</span>
+
+                            {% if pesticide.quantity_available > 10 %}
+                                <div class="stock-indicator in-stock">In Stock ({{ pesticide.quantity_available }})</div>
+                            {% elif pesticide.quantity_available > 0 %}
+                                <div class="stock-indicator low-stock">Low Stock ({{ pesticide.quantity_available }})</div>
+                            {% else %}
+                                <div class="stock-indicator out-of-stock">Out of Stock</div>
+                            {% endif %}
+
+                            <a href="{% url 'add_to_cart' pesticide.id %}" class="btn btn-add-cart">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <h2>All Pesticides</h2>
+    <div class="row">
+        {% for pesticide in all_pesticides %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="shop-card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ pesticide.pesticide_name }}</h5>
+                        <p class="card-text">Effective against {{ pesticide.pest_name }}</p>
+                        <span class="price-tag">₹{{ pesticide.price }}</span>
+
+                        {% if pesticide.quantity_available > 10 %}
+                            <div class="stock-indicator in-stock">In Stock ({{ pesticide.quantity_available }})</div>
+                        {% elif pesticide.quantity_available > 0 %}
+                            <div class="stock-indicator low-stock">Low Stock ({{ pesticide.quantity_available }})</div>
+                        {% else %}
+                            <div class="stock-indicator out-of-stock">Out of Stock</div>
+                        {% endif %}
+
+                        <a href="{% url 'add_to_cart' pesticide.id %}" class="btn btn-add-cart">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <div class="empty-state">
+                    <p>No pesticides available at the moment. Please check back later.</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

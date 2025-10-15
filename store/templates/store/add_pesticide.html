@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Pesticide</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(120deg, #e0f7e9, #c3f2f4);
+            padding: 30px;
+            margin: 0;
+        }
+
+        .form-container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 600px;
+            margin: auto;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .form-container:hover {
+            transform: scale(1.01);
+        }
+
+        h2 {
+            text-align: center;
+            color: #28a745;
+            margin-bottom: 25px;
+            font-size: 28px;
+            letter-spacing: 1px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: 500;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px 14px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: 0.2s ease;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            border-color: #28a745;
+            outline: none;
+            box-shadow: 0 0 5px rgba(40, 167, 69, 0.2);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #28a745, #218838);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            transition: 0.3s ease;
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #218838, #1e7e34);
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #6c757d, #495057);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: linear-gradient(135deg, #495057, #343a40);
+        }
+
+        @media (max-width: 640px) {
+            .form-container {
+                padding: 20px;
+            }
+
+            .btn, .back-btn {
+                font-size: 14px;
+                padding: 10px;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <a href="{% url 'admin_dashboard' %}" class="back-btn">← Back to Dashboard</a>
+
+        <h2>Add New Pesticide</h2>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <label for="pest_name">Pest Name:</label>
+            <input type="text" name="pest_name" id="pest_name" required>
+
+            <label for="pesticide_name">Pesticide Name:</label>
+            <input type="text" name="pesticide_name" id="pesticide_name" required>
+
+            <label for="price">Price (in Rs):</label>
+            <input type="number" name="price" id="price" required>
+
+            <label for="quantity_available">Quantity Available:</label>
+            <input type="number" name="quantity_available" id="quantity_available" required>
+
+            <button type="submit" class="btn"> Save Pesticide</button>
+        </form>
+    </div>
+</body>
+</html>
